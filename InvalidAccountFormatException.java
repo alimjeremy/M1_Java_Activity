@@ -1,0 +1,9 @@
+package com.bpi.m4.Activity5;
+
+public class InvalidAccountFormatException extends RuntimeException {
+
+	public InvalidAccountFormatException(String string) {
+		super(string);
+	}
+
+}
