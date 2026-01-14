@@ -1,4 +1,4 @@
-package com.bpi.m4.Activity6;
+package com.bpi.m4.Activity7;
 
 public class InsufficientFundsException extends Exception {
 	private double balance;
