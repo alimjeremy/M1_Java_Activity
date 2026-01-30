@@ -1,5 +1,6 @@
 package com.bpi.M6_ACTIVITY;
 
+import com.bpi.M6_ACTIVITY.model.Course;
 import com.bpi.M6_ACTIVITY.model.Student;
 import com.bpi.M6_ACTIVITY.util.EntityManagerUtil;
 
@@ -15,7 +16,7 @@ public class App {
 		EntityManager em = EntityManagerUtil.getInstance().createEntityManager();
 
 		try {
-			runM6Activity2(em);
+			persistenOneToMany(em);
 		} finally {
 			EntityManagerUtil.getInstance().closeEntityManager(em);
 			EntityManagerUtil.getInstance().shutdownFactory();
@@ -54,5 +55,20 @@ public class App {
 
 		}
 
+	}
+	
+	static void persistenOneToMany(EntityManager em) {
+		em.getTransaction().begin();
+		
+		Student student1 = em.find(Student.class, 3L);
+		
+		Course newCourse = new Course();
+		newCourse.setCourseName("Filipino");
+		newCourse.setGrade(89.67);
+		newCourse.setStudent(student1);
+		
+		em.persist(newCourse);
+		
+		em.getTransaction().commit();
 	}
 }

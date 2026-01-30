@@ -1,10 +1,13 @@
 package com.bpi.M6_ACTIVITY.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +27,9 @@ public class Student {
 
 	@Column(name = "email", columnDefinition = "VARCHAR(50)", unique = true, nullable = false)
 	private String email;
+	
+	@OneToMany(mappedBy = "student")
+	private List<Course> courses;
 
 	public Long getId() {
 		return id;
