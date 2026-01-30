@@ -1,5 +1,6 @@
 package com.bpi.M6_ACTIVITY;
 
+import com.bpi.M6_ACTIVITY.model.Student;
 import com.bpi.M6_ACTIVITY.util.EntityManagerUtil;
 
 import jakarta.persistence.EntityManager;
@@ -9,19 +10,19 @@ import jakarta.persistence.EntityManager;
  *
  */
 public class App {
-	
+
 	public static void main(String[] args) {
 		EntityManager em = EntityManagerUtil.getInstance().createEntityManager();
 
 		try {
-			testConnection();
+			runM6Activity2(em);
 		} finally {
 			EntityManagerUtil.getInstance().closeEntityManager(em);
 			EntityManagerUtil.getInstance().shutdownFactory();
 		}
 	}
-	
-	//Activity 1 Test Connection
+
+	// Activity 1 Test Connection
 	static void testConnection() {
 		EntityManager em = EntityManagerUtil.getInstance().createEntityManager();
 
@@ -34,5 +35,24 @@ public class App {
 			EntityManagerUtil.getInstance().closeEntityManager(em);
 			EntityManagerUtil.getInstance().shutdownFactory();
 		}
+	}
+
+	// Activity 2 Insert Student name in Students tables
+	static void runM6Activity2(EntityManager em) {
+		try {
+			em.getTransaction().begin();
+
+			Student newStudent = new Student();
+			newStudent.setName("Julie Ann Capispisan");
+			newStudent.setAge(35);
+			newStudent.setEmail("julieanncapispisan@gmail.com");
+
+			em.persist(newStudent);
+			em.getTransaction().commit();
+
+		} finally {
+
+		}
+
 	}
 }
