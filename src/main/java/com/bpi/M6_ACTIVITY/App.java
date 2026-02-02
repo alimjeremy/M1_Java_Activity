@@ -16,7 +16,7 @@ public class App {
 		EntityManager em = EntityManagerUtil.getInstance().createEntityManager();
 
 		try {
-			persistenOneToMany(em);
+			m6Activity4Solution(em);
 		} finally {
 			EntityManagerUtil.getInstance().closeEntityManager(em);
 			EntityManagerUtil.getInstance().shutdownFactory();
@@ -57,6 +57,7 @@ public class App {
 
 	}
 	
+	// Activity 3 ManyToOne and OneToMany Relation
 	static void persistenOneToMany(EntityManager em) {
 		em.getTransaction().begin();
 		
@@ -68,6 +69,41 @@ public class App {
 		newCourse.setStudent(student1);
 		
 		em.persist(newCourse);
+		
+		em.getTransaction().commit();
+	}
+	
+	// Activity 4 CRUD
+	static void m6Activity4Solution(EntityManager em) {
+		em.getTransaction().begin();
+		
+		Student newStudent = new Student();
+		
+		newStudent.setName("Jill Valentine");
+		newStudent.setAge(24);
+		newStudent.setEmail("jillvalentine@gmail.com");
+		
+		em.persist(newStudent);
+		
+		em.flush();
+		
+		em.detach(newStudent);
+		
+		System.out.println("is newStudent inside the persistence context: " + em.contains(newStudent));
+		
+		newStudent = em.merge(newStudent);
+		
+		newStudent.setAge(26);
+		
+		em.flush();
+		
+		System.out.println("is newStudent inside the persistence context: " + em.contains(newStudent));
+		
+		em.remove(newStudent);
+		
+		em.flush();
+		
+		System.out.println("is newStudent inside the persistence context: " + em.contains(newStudent));
 		
 		em.getTransaction().commit();
 	}
