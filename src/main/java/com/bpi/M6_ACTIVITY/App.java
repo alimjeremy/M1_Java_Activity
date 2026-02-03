@@ -1,10 +1,13 @@
 package com.bpi.M6_ACTIVITY;
 
+import java.util.List;
+
 import com.bpi.M6_ACTIVITY.model.Course;
 import com.bpi.M6_ACTIVITY.model.Student;
 import com.bpi.M6_ACTIVITY.util.EntityManagerUtil;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 /**
  * Hello world!
@@ -16,7 +19,9 @@ public class App {
 		EntityManager em = EntityManagerUtil.getInstance().createEntityManager();
 
 		try {
-			m6Activity4Solution(em);
+			findStudentNames(em);
+			countCoursesByStudentId(em, 2L);
+			findStudentsByAgeGreaterThan(em, 30);
 		} finally {
 			EntityManagerUtil.getInstance().closeEntityManager(em);
 			EntityManagerUtil.getInstance().shutdownFactory();
@@ -104,6 +109,50 @@ public class App {
 		em.flush();
 		
 		System.out.println("is newStudent inside the persistence context: " + em.contains(newStudent));
+		
+		em.getTransaction().commit();
+	}
+	
+	// Activity 5 JPQL Find Student Name in students table
+	static void findStudentNames(EntityManager em) {
+		em.getTransaction().begin();
+		
+		String jpql = "SELECT s FROM Student s";
+		TypedQuery<Student> query = em.createQuery(jpql, Student.class);
+		List<Student> students = query.getResultList();
+		
+		students.forEach(student -> System.out.println(student.getName()));
+		
+		em.getTransaction().commit();
+	}
+	
+	// Activity 5 JPQL Find Student Name in students table
+	public static Long countCoursesByStudentId(EntityManager em, Long id) {
+		em.getTransaction().begin();
+		
+		String jpql = "SELECT Count(c) FROM Course c WHERE c.student.id = :id";
+		Long count = em.createQuery(jpql, Long.class)
+				.setParameter("id", id)
+				.getSingleResult();
+		
+		System.out.println(count);
+		
+		em.getTransaction().commit();
+		
+		return count;
+		
+	}
+	
+	// Activity 5 JPQL Find Student by Age Greater Than
+	 static void findStudentsByAgeGreaterThan(EntityManager em, int age) {
+		em.getTransaction().begin();
+		
+		String jpql = "SELECT s.name FROM Student s WHERE s.age > :age";
+		TypedQuery<String> query = em.createQuery(jpql, String.class)
+				.setParameter("age", age);
+		List<String> names = query.getResultList();
+		
+		names.forEach(System.out::println);
 		
 		em.getTransaction().commit();
 	}

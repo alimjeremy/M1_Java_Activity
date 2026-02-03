@@ -27,6 +27,10 @@ public class Course {
 	@ManyToOne
 	@JoinColumn(name = "student_id")
 	private Student student;
+	
+	public Course () {
+		
+	}
 
 	public Long getId() {
 		return id;
